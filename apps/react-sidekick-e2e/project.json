@@ -1,0 +1,29 @@
+{
+  "root": "apps/react-sidekick-e2e",
+  "sourceRoot": "apps/react-sidekick-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/react-sidekick-e2e/cypress.json",
+        "devServerTarget": "react-sidekick:serve",
+        "tsConfig": "apps/react-sidekick-e2e/tsconfig.json"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "react-sidekick:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/react-sidekick-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["react-sidekick"]
+}

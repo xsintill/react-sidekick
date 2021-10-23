@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "react-sidekick": "apps/react-sidekick",
+    "react-sidekick-e2e": "apps/react-sidekick-e2e"
+  }
+}

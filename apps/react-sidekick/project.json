@@ -1,0 +1,72 @@
+{
+  "root": "apps/react-sidekick",
+  "sourceRoot": "apps/react-sidekick/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/react-sidekick",
+        "index": "apps/react-sidekick/src/index.html",
+        "baseHref": "/",
+        "main": "apps/react-sidekick/src/main.tsx",
+        "polyfills": "apps/react-sidekick/src/polyfills.ts",
+        "tsConfig": "apps/react-sidekick/tsconfig.app.json",
+        "assets": [
+          "apps/react-sidekick/src/favicon.ico",
+          "apps/react-sidekick/src/assets"
+        ],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/react-sidekick/src/environments/environment.ts",
+              "with": "apps/react-sidekick/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "react-sidekick:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "react-sidekick:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/react-sidekick/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/react-sidekick"],
+      "options": {
+        "jestConfig": "apps/react-sidekick/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
