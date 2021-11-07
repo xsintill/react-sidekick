@@ -37,7 +37,10 @@ export function insertImport(
     return;
   }
   const namedImports = existingImport.importClause.namedBindings as NamedImports;
-
+  //if name already exists in namedImports return
+  if (namedImports.elements.find((element) => element.getText(sourceFile) === name)) {
+    return;
+  }
   const newNamedImports = namedImports.elements.map((element) => {
     if (element.getText(sourceFile) === name) {
       return element;
@@ -45,8 +48,12 @@ export function insertImport(
     return element.getText(sourceFile);
   });
 
+
+  const hasTrailingComma = namedImports.elements.hasTrailingComma;
+
   //sort the namedImports
-  const newImport = `import { ${[...newNamedImports, name].sort().join(', ')} } from '${modulePath}';`;
+  const newImport = 
+    `import { ${[...newNamedImports, name].sort().join(', ')}${hasTrailingComma ? ',' : ''} } from '${modulePath}';`;
   const start = existingImport.getStart(sourceFile);
   const end = existingImport.getEnd();
   
@@ -65,29 +72,3 @@ export function insertImport(
   const newContents = applyChangesToString(contents, changes);
   tree.write(path, newContents);
 }
-
-
-
-  
-//   const namedImports = existingImport.importClause
-//     .namedBindings as NamedImports;
-
-//   const index = namedImports.getEnd() - 1;
-
-//   let text: string;
-//   if (namedImports.elements.hasTrailingComma) {
-//     text = `${name},`;
-//   } else {
-//     text = `,${name}`;
-//   }
-
-//   const newContents = applyChangesToString(contents, [
-//     {
-//       type: ChangeType.Insert,
-//       index,
-//       text,
-//     },
-//   ]);
-
-//   tree.write(path, newContents);
-// }
