@@ -59,4 +59,35 @@ describe('insertImport', () => {
       `"import { a } from 'a-path';"`
     );
   });
+
+  it('should add the block with the importIdentifier if no block exist', () => {
+    tree.write('index.ts', `import react from 'react';`);
+
+    insertImport(tree, 'index.ts', 'useState', 'react');
+
+    expect(tree.read('index.ts', 'utf-8')).toMatchInlineSnapshot(
+      `"import react, { useState } from 'react';"`
+    );
+  });
+
+  it('should keep both the existing identifier and nameImport stay intact', () => {
+    tree.write('index.ts', `import react, {useState} from 'react';`);
+
+    insertImport(tree, 'index.ts', 'useRef', 'react');
+
+    expect(tree.read('index.ts', 'utf-8')).toMatchInlineSnapshot(
+      `"import react, { useRef, useState } from 'react';"`
+    );
+  });
+
+  it('should add type when iserting typeOnly import', () => {
+    tree.write('index.ts', `import { useState } from 'react';`);
+
+    insertImport(tree, 'index.ts', 'ReactNode', 'react', 'isTypeOnly');
+
+    expect(tree.read('index.ts', 'utf-8')).toMatchInlineSnapshot(`
+"import { useState } from 'react';
+import type { ReactNode } from 'react';"
+`);
+  });
 });
