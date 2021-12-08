@@ -43,18 +43,20 @@ export function getComponentMeta(tree: Tree, project: string, dir: string) {
     const pathToComp = `${projectConfig.root}/${dir}/${componentName}.tsx`;
     const pathToTypeFile = `${projectConfig.root}/${dir}/${componentName}.type.ts`;
     const pathToLogicHook = `${projectConfig.root}/${dir}/use${componentName}.hook.tsx`;
+    const contents = tree.read(pathToComp, 'utf-8');
+    const sourceFile = createSourceFile(pathToComp, contents, ScriptTarget.Latest, true);
     const hookName = `use${names.className}`;
-    const hookLogic = getLogicForHook(tree, pathToComp, project, dir);
+    const hookLogic = getLogicForHook(sourceFile, contents);
     const hookFileName = `use${names.className}.hook.tsx`;
     const hookFileNameInExtension = `use${names.className}.hook`;
     const hookReturnType = `${names.className}Hook`;
     const hookPropsType = `${names.className}Props`;
     const hookReturnValues = ``;
     const hookParams = ``;
-    const contents = tree.read(pathToComp, 'utf-8');
+   
     const logicHookContents = tree.read(pathToLogicHook, 'utf-8');
     
-    const sourceFile = createSourceFile(pathToComp, contents, ScriptTarget.Latest, true);
+    
     const logicHookSourceFile = createSourceFile(pathToLogicHook, logicHookContents, ScriptTarget.Latest, true);
 
     return {
